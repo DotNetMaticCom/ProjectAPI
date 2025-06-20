@@ -1,7 +1,7 @@
 using StarterProject.ApiClient.Abstractions;
 using StarterProject.ApiClient.Extensions;
-using StarterProject.Web.Components;
-using StarterProject.Web.Services;
+using StarterProject.Web.Server.Components;
+using StarterProject.Web.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +20,7 @@ builder.Services.AddApiClient(builder.Configuration);
 
 // Add server-specific services
 builder.Services.AddScoped<ITokenStorage, ServerTokenStorage>();
-builder.Services.AddScoped<Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider, StarterProject.Web.Auth.JwtAuthenticationStateProvider>();
+builder.Services.AddScoped<Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider, StarterProject.Web.Server.Auth.JwtAuthenticationStateProvider>();
 
 var app = builder.Build();
 

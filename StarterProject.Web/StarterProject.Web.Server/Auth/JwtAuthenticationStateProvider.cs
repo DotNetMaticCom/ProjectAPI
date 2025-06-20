@@ -3,7 +3,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Components.Authorization;
 using StarterProject.ApiClient.Abstractions;
 
-namespace StarterProject.Web.Auth;
+namespace StarterProject.Web.Server.Auth;
 
 public class JwtAuthenticationStateProvider : AuthenticationStateProvider
 {

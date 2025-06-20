@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using StarterProject.ApiClient.Abstractions;
 
-namespace StarterProject.Web.Services;
+namespace StarterProject.Web.Server.Services;
 
 public class ServerTokenStorage : ITokenStorage
 {

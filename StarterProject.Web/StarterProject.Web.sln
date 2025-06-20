@@ -2,7 +2,7 @@
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.0.0
 MinimumVisualStudioVersion = 16.0.0.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarterProject.Web", "StarterProject.Web\StarterProject.Web.csproj", "{71E21124-D8CD-4DAD-8980-0EA32FCBC1F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarterProject.Web.Server", "StarterProject.Web.Server\StarterProject.Web.Server.csproj", "{71E21124-D8CD-4DAD-8980-0EA32FCBC1F0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarterProject.Web.Client", "StarterProject.Web.Client\StarterProject.Web.Client.csproj", "{ADFC3CE0-1B73-4CE1-8222-6F8B995C3AF5}"
 EndProject
