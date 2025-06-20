@@ -63,19 +63,21 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider
         }
     }
 
-    public async Task NotifyUserAuthenticationAsync(string token)
+    public Task NotifyUserAuthenticationAsync(string token)
     {
         var claims = ParseClaimsFromJwt(token);
         var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
         var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
         NotifyAuthenticationStateChanged(authState);
+        return Task.CompletedTask;
     }
 
-    public async Task NotifyUserLogoutAsync()
+    public Task NotifyUserLogoutAsync()
     {
         var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
         var authState = Task.FromResult(new AuthenticationState(anonymousUser));
         NotifyAuthenticationStateChanged(authState);
+        return Task.CompletedTask;
     }
 
     private static IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
