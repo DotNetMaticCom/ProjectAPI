@@ -1,0 +1,101 @@
+@page "/login"
+@using StarterProject.ApiClient.Abstractions
+@using StarterProject.ApiClient.Models.Auth
+@using StarterProject.Web.Client.Auth
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Sign in to your account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Or
+                <a href="/register" class="font-medium text-primary-600 hover:text-primary-500">
+                    create a new account
+                </a>
+            </p>
+        </div>
+        
+        <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin" class="mt-8 space-y-6">
+            <DataAnnotationsValidator />
+            
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="rounded-md bg-red-50 p-4">
+                    <div class="flex">
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">
+                                @errorMessage
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+            <div class="space-y-4">
+                <div>
+                    <label for="email" class="label">Email address</label>
+                    <InputText id="email" @bind-Value="loginModel.Email" class="input" type="email" autocomplete="email" required />
+                    <ValidationMessage For="() => loginModel.Email" class="text-red-600 text-sm mt-1" />
+                </div>
+                
+                <div>
+                    <label for="password" class="label">Password</label>
+                    <InputText id="password" @bind-Value="loginModel.Password" class="input" type="password" autocomplete="current-password" required />
+                    <ValidationMessage For="() => loginModel.Password" class="text-red-600 text-sm mt-1" />
+                </div>
+            </div>
+            
+            <div>
+                <button type="submit" class="btn btn-primary w-full" disabled="@isLoading">
+                    @if (isLoading)
+                    {
+                        <span>Signing in...</span>
+                    }
+                    else
+                    {
+                        <span>Sign in</span>
+                    }
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private LoginRequest loginModel = new();
+    private bool isLoading = false;
+    private string? errorMessage;
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            var response = await AuthService.LoginAsync(loginModel);
+            
+            if (response.AccessToken != null)
+            {
+                var authStateProvider = (JwtAuthenticationStateProvider)AuthStateProvider;
+                await authStateProvider.NotifyUserAuthenticationAsync(response.AccessToken.Token);
+                
+                Navigation.NavigateTo("/", forceLoad: true);
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Login failed. Please check your credentials and try again.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

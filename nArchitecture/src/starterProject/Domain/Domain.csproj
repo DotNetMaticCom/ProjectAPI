@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../nArchitecture.Core/src/Core.Persistence/Core.Persistence.csproj" />
+    <ProjectReference Include="../../../../nArchitecture.Core/src/Core.Security/Core.Security.csproj" />
+  </ItemGroup>
+</Project>

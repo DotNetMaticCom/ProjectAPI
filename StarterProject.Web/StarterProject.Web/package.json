@@ -1,0 +1,16 @@
+{
+  "name": "starterproject-web",
+  "version": "1.0.0",
+  "description": "Blazor Web App with TailwindCSS",
+  "scripts": {
+    "css:build": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --minify",
+    "css:watch": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --watch",
+    "build": "npm run css:build",
+    "watch": "npm run css:watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1",
+    "postcss": "^8.4.33",
+    "autoprefixer": "^10.4.17"
+  }
+}

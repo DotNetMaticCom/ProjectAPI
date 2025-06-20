@@ -1,0 +1,77 @@
+@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
+@using StarterProject.ApiClient.Abstractions
+@using StarterProject.Web.Client.Auth
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+
+<div class="min-h-screen bg-gray-50">
+    <nav class="bg-white shadow">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 justify-between">
+                <div class="flex">
+                    <div class="flex flex-shrink-0 items-center">
+                        <a href="/" class="text-xl font-bold text-primary-600">StarterProject</a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <NavLink href="" Match="NavLinkMatch.All" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700" ActiveClass="border-primary-500 text-gray-900">
+                            Home
+                        </NavLink>
+                        <AuthorizeView>
+                            <Authorized>
+                                <NavLink href="dashboard" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700" ActiveClass="border-primary-500 text-gray-900">
+                                    Dashboard
+                                </NavLink>
+                            </Authorized>
+                        </AuthorizeView>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
+                    <AuthorizeView>
+                        <Authorized>
+                            <span class="text-sm text-gray-700">Welcome, @context.User.Identity?.Name</span>
+                            <button @onclick="HandleLogout" class="btn btn-outline text-sm">
+                                Sign out
+                            </button>
+                        </Authorized>
+                        <NotAuthorized>
+                            <NavLink href="login" class="btn btn-outline text-sm">
+                                Sign in
+                            </NavLink>
+                            <NavLink href="register" class="btn btn-primary text-sm">
+                                Sign up
+                            </NavLink>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        @Body
+    </main>
+</div>
+
+<div id="blazor-error-ui" class="hidden fixed bottom-0 right-0 m-4 p-4 bg-red-600 text-white rounded-lg shadow-lg" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="underline">Reload</a>
+    <span class="dismiss cursor-pointer ml-2">🗙</span>
+</div>
+
+<style>
+    #blazor-error-ui {
+        display: none;
+    }
+</style>
+
+@code {
+    private async Task HandleLogout()
+    {
+        await AuthService.LogoutAsync();
+        var authStateProvider = (JwtAuthenticationStateProvider)AuthStateProvider;
+        await authStateProvider.NotifyUserLogoutAsync();
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}
