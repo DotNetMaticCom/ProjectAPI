@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="utf-8" />
@@ -11,9 +11,20 @@
     <HeadOutlet @rendermode="InteractiveAuto" />
 </head>
 
-<body>
-    <Routes @rendermode="InteractiveAuto" />
+<body class="min-h-screen bg-base-100">
+    <StarterProject.Web.Client.Routes @rendermode="InteractiveAuto" />
     <script src="_framework/blazor.web.js"></script>
+    <script>
+        // Theme switcher
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+    </script>
 </body>
 
 </html>
